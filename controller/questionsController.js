@@ -9,10 +9,7 @@ const getAllQuestions = async(req,res,next)  => {
     if(!user) return res.sendStatus(400)
     const id = user._id
     const questions = await Question.find({user: id}).exec()
-    const questionTitles = questions.map(item => {
-      return {'title ': item.title, 'id' : item._id}
-    })
-    res.status(200).json(questionTitles)
+    res.status(200).json(questions)
   }catch(err){
     next(err)
   }

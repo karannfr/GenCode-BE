@@ -53,9 +53,8 @@ const generateQuestion = async(req,res,next) => {
       `,
     })
     const data = JSON.parse(response.text);
-    console.log(data)
     const id = user._id;
-    await Question.create(
+    const question = await Question.create(
       {title: data.title,
       promptUsed: input,
       description: data.description,
@@ -65,7 +64,9 @@ const generateQuestion = async(req,res,next) => {
       solution: data.solution,
       user: id}
     )
-    res.status(200).json(data);
+    user.stats.totalQuestions = user.stats.totalQuestions + 1
+    await user.save()
+    res.status(200).json(question.id);
   }catch(err){
     next(err)
   }
