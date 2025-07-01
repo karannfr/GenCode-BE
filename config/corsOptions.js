@@ -1,5 +1,10 @@
 
-const whitelist = ['http://localhost:3500', 'http://example2.com']
+const whitelist = [
+  'http://localhost',
+  'http://127.0.0.1',
+  'http://::1',
+  'http://gencode.karnx.dev'
+]
 
 const corsOptions = {
   origin: function (origin, callback) {
