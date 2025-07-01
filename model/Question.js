@@ -14,6 +14,7 @@ const questionSchema = new mongoose.Schema({
     input:  { type: String },
     output: { type: String }
   }],
+  hints:        [{ type: String }],
   solution:     { type: String },
   user:         { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   status:       { type: String, enum: ['solved', 'unsolved'], default: 'unsolved' },

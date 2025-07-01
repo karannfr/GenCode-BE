@@ -9,8 +9,9 @@ const submissionSchema = new mongoose.Schema({
   testResults: [{
     input:    { type: String },
     expected: { type: String },
-    output:   { type: String },
-    passed:   { type: Boolean }
+    stdout:   { type: String },
+    status:   { type: String},
+    passed:   { type: Boolean}
   }],
   submittedAt: { type: Date, default: Date.now }
 });

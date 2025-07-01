@@ -46,6 +46,7 @@ const generateQuestion = async(req,res,next) => {
           },
           ...
         ],
+        "hints":["Hint 1", "Hint 2", "..."]
         "solution": "Provide the full solution in Python here."
       }
 
@@ -61,11 +62,10 @@ const generateQuestion = async(req,res,next) => {
       constraints: data.constraints,
       examples: data.examples,
       testCases: data.testCases,
+      hints: data.hints,
       solution: data.solution,
       user: id}
     )
-    user.stats.totalQuestions = user.stats.totalQuestions + 1
-    await user.save()
     res.status(200).json(question.id);
   }catch(err){
     next(err)
