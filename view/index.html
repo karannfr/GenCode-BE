@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GenCode API Documentation</title>
   <style>
     body {
@@ -62,162 +62,216 @@
   </style>
 </head>
 <body>
-
-  <header>
-    <h1>GenCode API Documentation</h1>
-  </header>
-
+  <header><h1>GenCode API Documentation</h1></header>
   <main>
-
-    <section class="route">
-      <p class="method">POST /register</p>
-      <p>Registers a new user.</p>
-      <strong>Request:</strong>
-      <pre>{
+<section class="route">
+  <p class="method">POST /register</p>
+  <p><strong>📥 Request Body:</strong></p>
+  <pre>{
   "username": "karan",
   "email": "karan@example.com",
   "password": "securepass"
 }</pre>
-      <strong>Responses:</strong>
-      <p class="status">201 Created</p>
-      <pre>{ "message": "User successfully registered." }</pre>
-      <p class="status">400 Bad Request</p>
-      <pre>{ "message": "All fields (username, password, email) are required." }</pre>
-      <p class="status">409 Conflict</p>
-      <pre>{ "message": "Username already exists." }</pre>
-    </section>
+  <p><strong>📤 Response:</strong></p>
+  <p class="status">201:</p>
+  <pre>{
+  "message": "User successfully registered."
+}</pre>
+  <p class="status">400:</p>
+  <pre>{
+  "message": "All fields required."
+}</pre>
+  <p class="status">409:</p>
+  <pre>{
+  "message": "Username or email already exists."
+}</pre>
+</section>
 
-    <section class="route">
-      <p class="method">POST /login</p>
-      <p>Logs in the user and returns access token.</p>
-      <pre>{
+<section class="route">
+  <p class="method">POST /login</p>
+  <p><strong>📥 Request Body:</strong></p>
+  <pre>{
   "username": "karan",
   "password": "securepass"
 }</pre>
-      <p class="status">202 Accepted</p>
-      <pre>{ "accessToken": "..." }</pre>
-      <p class="status">400 Bad Request</p>
-      <pre>{ "message": "Incomplete Fields" }</pre>
-      <p class="status">401 Unauthorized</p>
-      <pre>{ "message": "Username does not exist" }</pre>
-    </section>
+  <p><strong>📤 Response:</strong></p>
+  <p class="status">202:</p>
+  <pre>{
+  "accessToken": "..."
+}</pre>
+  <p class="status">400:</p>
+  <pre>{
+  "message": "Incomplete fields"
+}</pre>
+  <p class="status">401:</p>
+  <pre>{
+  "message": "Username does not exist"
+}</pre>
+</section>
 
-    <section class="route">
-      <p class="method">GET /refresh</p>
-      <p>Refreshes access token using cookie.</p>
-      <p class="status">200 OK</p>
-      <pre>{ "message": "Access token refreshed successfully.", "accessToken": "..." }</pre>
-      <p class="status">401 Unauthorized / 403 Forbidden</p>
-      <pre>{ "message": "Unauthorized: No refresh token provided." }</pre>
-    </section>
+<section class="route">
+  <p class="method">GET /refresh</p>
+  <p>🔐 Requires Auth Header</p>
+  <p><strong>Headers:</strong></p>
+  <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+  <p><strong>Cookie:</strong> jwt</p>
+  <p><strong>📤 Response:</strong></p>
+  <p class="status">200:</p>
+  <pre>{
+  "accessToken": "..."
+}</pre>
+  <p class="status">401:</p>
+  <pre>{
+  "message": "Unauthorized"
+}</pre>
+</section>
 
-    <section class="route">
-      <p class="method">GET /logout</p>
-      <p>Logs out the user.</p>
-      <p class="status">200 OK</p>
-      <pre>{ "message": "Logout successful." }</pre>
-      <p class="status">404 Not Found</p>
-      <pre>{ "message": "User not found. Session cleared." }</pre>
-    </section>
+<section class="route">
+  <p class="method">POST /logout</p>
+  <p>🔐 Requires Auth Header</p>
+  <p><strong>Headers:</strong></p>
+  <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+  <p><strong>Cookie:</strong> jwt</p>
+  <p><strong>📤 Response:</strong></p>
+  <p class="status">200:</p>
+  <pre>{
+  "message": "Logout successful"
+}</pre>
+</section>
 
-    <section class="route">
-      <p class="method">POST /generate</p>
-      <p>Generates a competitive programming question using AI.</p>
-      <pre>{
+<section class="route">
+  <p class="method">POST /generate</p>
+  <p>🔐 Requires Auth Header</p>
+  <p><strong>Headers:</strong></p>
+  <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+  <p><strong>📥 Request Body:</strong></p>
+  <pre>{
   "input": "string manipulation problem"
 }</pre>
-      <p class="status">200 OK</p>
-      <pre>{ "id": "generated_question_id" }</pre>
-      <p class="status">400 / 401</p>
-      <pre>{ "message": "Missing prompt or unauthorized." }</pre>
-    </section>
+  <p><strong>📤 Response:</strong></p>
+  <p class="status">200:</p>
+  <pre>{
+  "id": "generated_question_id"
+}</pre>
+  <p class="status">400:</p>
+  <pre>{
+  "message": "Missing input"
+}</pre>
+</section>
 
-    <section class="route">
-      <p class="method">GET /question</p>
-      <p>Returns all questions created by the user.</p>
-      <p class="status">200 OK</p>
-      <pre>{ "message": "Questions retrieved successfully.", "questions": [...] }</pre>
-      <p class="status">401 / 404</p>
-    </section>
+<section class="route">
+  <p class="method">GET /question</p>
+  <p>🔐 Requires Auth Header</p>
+  <p><strong>Headers:</strong></p>
+  <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+  <p><strong>📤 Response:</strong></p>
+  <p class="status">200:</p>
+  <pre>[
+  {
+    "title": "...",
+    "description": "...",
+    "status": "solved"
+  }
+]</pre>
+</section>
 
-    <section class="route">
-      <p class="method">GET /question/:id</p>
-      <p>Returns a single question by ID.</p>
-      <p class="status">200 OK</p>
-      <pre>{ "message": "Question retrieved successfully.", "question": {...} }</pre>
-      <p class="status">404 Not Found</p>
-    </section>
+<section class="route">
+  <p class="method">GET /question/:id</p>
+  <p>🔐 Requires Auth Header</p>
+  <p><strong>Headers:</strong></p>
+  <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+  <p><strong>📤 Response:</strong></p>
+  <p class="status">200:</p>
+  <pre>{
+  "title": "...",
+  "description": "...",
+  "testCases": []
+}</pre>
+</section>
 
-    <section class="route">
-      <p class="method">POST /run</p>
-      <p>Runs the user's code for a question.</p>
-      <pre>{
+<section class="route">
+  <p class="method">POST /run</p>
+  <p>🔐 Requires Auth Header</p>
+  <p><strong>Headers:</strong></p>
+  <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+  <p><strong>📥 Request Body:</strong></p>
+  <pre>{
   "language": "python",
   "code": "print('Hello')",
-  "questionID": "..."
+  "questionID": "12345"
 }</pre>
-      <p class="status">200 OK</p>
-      <pre>{
-  "message": "Code executed successfully.",
+  <p><strong>📤 Response:</strong></p>
+  <p class="status">200:</p>
+  <pre>{
   "results": [
     {
       "input": "...",
       "expected": "...",
-      "stdout": "...",
       "status": "Accepted",
       "passed": true
     }
   ]
 }</pre>
-      <p class="status">401 / 404 / 500</p>
-    </section>
+</section>
 
-    <section class="route">
-      <p class="method">POST /submit</p>
-      <p>Submits code for evaluation and updates question status.</p>
-      <pre>{
+<section class="route">
+  <p class="method">POST /submit</p>
+  <p>🔐 Requires Auth Header</p>
+  <p><strong>Headers:</strong></p>
+  <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+  <p><strong>📥 Request Body:</strong></p>
+  <pre>{
   "language": "cpp",
   "code": "int main(){}",
-  "questionID": "..."
+  "questionID": "12345"
 }</pre>
-      <p class="status">200 OK</p>
-      <pre>{
-  "message": "Submission processed.",
-  "results": [ ... ]
+  <p><strong>📤 Response:</strong></p>
+  <p class="status">200:</p>
+  <pre>{
+  "results": [
+    {
+      "input": "...",
+      "passed": true
+    }
+  ]
 }</pre>
-    </section>
+</section>
 
-    <section class="route">
-      <p class="method">POST /submit/all</p>
-      <p>Returns all submissions for a question by the user.</p>
-      <pre>{ "questionID": "..." }</pre>
-      <p class="status">200 OK</p>
-      <pre>{ "message": "Submissions retrieved.", "submissions": [...] }</pre>
-    </section>
+<section class="route">
+  <p class="method">POST /submit/all</p>
+  <p>🔐 Requires Auth Header</p>
+  <p><strong>Headers:</strong></p>
+  <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+  <p><strong>📥 Request Body:</strong></p>
+  <pre>{
+  "questionID": "12345"
+}</pre>
+  <p><strong>📤 Response:</strong></p>
+  <p class="status">200:</p>
+  <pre>{
+  "submissions": []
+}</pre>
+</section>
 
-    <section class="route">
-      <p class="method">GET /stats/:username</p>
-      <p>Returns stats for a user (solved questions, language usage).</p>
-      <p class="status">200 OK</p>
-      <pre>{
-  "message": "User stats retrieved successfully.",
+<section class="route">
+  <p class="method">GET /stats/:username</p>
+  <p>🔐 Requires Auth Header</p>
+  <p><strong>Headers:</strong></p>
+  <pre>Authorization: Bearer &lt;access_token&gt;</pre>
+  <p><strong>📤 Response:</strong></p>
+  <p class="status">200:</p>
+  <pre>{
   "stats": {
     "totalQuestions": 10,
-    "solvedQuestions": 6,
+    "solvedQuestions": 5,
     "languagesUsed": {
-      "C": 1, "Cpp": 4, "Java": 0, "Python": 1
+      "C": 2,
+      "Cpp": 3,
+      "Java": 1,
+      "Python": 4
     }
   }
 }</pre>
-    </section>
+</section>
 
-    <section class="route">
-      <p class="method">GET /</p>
-      <p>Default root route.</p>
-      <p class="status">200 OK</p>
-      <pre>{ "message": "Welcome to GenCode API." }</pre>
-    </section>
-
-  </main>
-</body>
-</html>
+</main></body></html>
