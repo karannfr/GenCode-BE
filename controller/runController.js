@@ -28,15 +28,15 @@ const runController = async (req, res, next) => {
     for (const testCase of question.testCases) {
       const options = {
         method: 'POST',
-        url: 'https://judge0-ce.p.rapidapi.com/submissions',
+        url: 'https://judge0-ce.p.sulu.sh/submissions',
         params: {
           base64_encoded: 'false',
           wait: 'true',
         },
         headers: {
           'content-type': 'application/json',
-          'X-RapidAPI-Key': process.env.X_RAPIDAPI_KEY,
-          'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com',
+          'Authorization' : `Bearer ${process.env.SULU_API_KEY}`,
+          'Accept': 'application/json',
         },
         data: {
           source_code: code,
