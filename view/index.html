@@ -2,10 +2,222 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Docs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GenCode API Documentation</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fafb;
+      color: #111827;
+    }
+    header {
+      background-color: #1f2937;
+      color: #fff;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+    h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    main {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    section {
+      margin-bottom: 2.5rem;
+    }
+    .route {
+      background: #ffffff;
+      border-left: 5px solid #3b82f6;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border-radius: 6px;
+    }
+    .method {
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #2563eb;
+    }
+    code {
+      background-color: #f3f4f6;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    pre {
+      background-color: #f3f4f6;
+      padding: 1rem;
+      overflow-x: auto;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+    .status {
+      font-size: 0.9rem;
+      color: #4b5563;
+      margin: 0.4rem 0;
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello</h1>
+
+  <header>
+    <h1>GenCode API Documentation</h1>
+  </header>
+
+  <main>
+
+    <section class="route">
+      <p class="method">POST /register</p>
+      <p>Registers a new user.</p>
+      <strong>Request:</strong>
+      <pre>{
+  "username": "karan",
+  "email": "karan@example.com",
+  "password": "securepass"
+}</pre>
+      <strong>Responses:</strong>
+      <p class="status">201 Created</p>
+      <pre>{ "message": "User successfully registered." }</pre>
+      <p class="status">400 Bad Request</p>
+      <pre>{ "message": "All fields (username, password, email) are required." }</pre>
+      <p class="status">409 Conflict</p>
+      <pre>{ "message": "Username already exists." }</pre>
+    </section>
+
+    <section class="route">
+      <p class="method">POST /login</p>
+      <p>Logs in the user and returns access token.</p>
+      <pre>{
+  "username": "karan",
+  "password": "securepass"
+}</pre>
+      <p class="status">202 Accepted</p>
+      <pre>{ "accessToken": "..." }</pre>
+      <p class="status">400 Bad Request</p>
+      <pre>{ "message": "Incomplete Fields" }</pre>
+      <p class="status">401 Unauthorized</p>
+      <pre>{ "message": "Username does not exist" }</pre>
+    </section>
+
+    <section class="route">
+      <p class="method">GET /refresh</p>
+      <p>Refreshes access token using cookie.</p>
+      <p class="status">200 OK</p>
+      <pre>{ "message": "Access token refreshed successfully.", "accessToken": "..." }</pre>
+      <p class="status">401 Unauthorized / 403 Forbidden</p>
+      <pre>{ "message": "Unauthorized: No refresh token provided." }</pre>
+    </section>
+
+    <section class="route">
+      <p class="method">GET /logout</p>
+      <p>Logs out the user.</p>
+      <p class="status">200 OK</p>
+      <pre>{ "message": "Logout successful." }</pre>
+      <p class="status">404 Not Found</p>
+      <pre>{ "message": "User not found. Session cleared." }</pre>
+    </section>
+
+    <section class="route">
+      <p class="method">POST /generate</p>
+      <p>Generates a competitive programming question using AI.</p>
+      <pre>{
+  "input": "string manipulation problem"
+}</pre>
+      <p class="status">200 OK</p>
+      <pre>{ "id": "generated_question_id" }</pre>
+      <p class="status">400 / 401</p>
+      <pre>{ "message": "Missing prompt or unauthorized." }</pre>
+    </section>
+
+    <section class="route">
+      <p class="method">GET /question</p>
+      <p>Returns all questions created by the user.</p>
+      <p class="status">200 OK</p>
+      <pre>{ "message": "Questions retrieved successfully.", "questions": [...] }</pre>
+      <p class="status">401 / 404</p>
+    </section>
+
+    <section class="route">
+      <p class="method">GET /question/:id</p>
+      <p>Returns a single question by ID.</p>
+      <p class="status">200 OK</p>
+      <pre>{ "message": "Question retrieved successfully.", "question": {...} }</pre>
+      <p class="status">404 Not Found</p>
+    </section>
+
+    <section class="route">
+      <p class="method">POST /run</p>
+      <p>Runs the user's code for a question.</p>
+      <pre>{
+  "language": "python",
+  "code": "print('Hello')",
+  "questionID": "..."
+}</pre>
+      <p class="status">200 OK</p>
+      <pre>{
+  "message": "Code executed successfully.",
+  "results": [
+    {
+      "input": "...",
+      "expected": "...",
+      "stdout": "...",
+      "status": "Accepted",
+      "passed": true
+    }
+  ]
+}</pre>
+      <p class="status">401 / 404 / 500</p>
+    </section>
+
+    <section class="route">
+      <p class="method">POST /submit</p>
+      <p>Submits code for evaluation and updates question status.</p>
+      <pre>{
+  "language": "cpp",
+  "code": "int main(){}",
+  "questionID": "..."
+}</pre>
+      <p class="status">200 OK</p>
+      <pre>{
+  "message": "Submission processed.",
+  "results": [ ... ]
+}</pre>
+    </section>
+
+    <section class="route">
+      <p class="method">POST /submit/all</p>
+      <p>Returns all submissions for a question by the user.</p>
+      <pre>{ "questionID": "..." }</pre>
+      <p class="status">200 OK</p>
+      <pre>{ "message": "Submissions retrieved.", "submissions": [...] }</pre>
+    </section>
+
+    <section class="route">
+      <p class="method">GET /stats/:username</p>
+      <p>Returns stats for a user (solved questions, language usage).</p>
+      <p class="status">200 OK</p>
+      <pre>{
+  "message": "User stats retrieved successfully.",
+  "stats": {
+    "totalQuestions": 10,
+    "solvedQuestions": 6,
+    "languagesUsed": {
+      "C": 1, "Cpp": 4, "Java": 0, "Python": 1
+    }
+  }
+}</pre>
+    </section>
+
+    <section class="route">
+      <p class="method">GET /</p>
+      <p>Default root route.</p>
+      <p class="status">200 OK</p>
+      <pre>{ "message": "Welcome to GenCode API." }</pre>
+    </section>
+
+  </main>
 </body>
 </html>
