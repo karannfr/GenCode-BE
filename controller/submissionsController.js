@@ -78,20 +78,20 @@ const makeSubmission = async (req, res, next) => {
 
 const getAllSubmissions = async (req, res, next) => {
   try {
-    const { questionID } = req.body;
+    const id = req.params.id;
     const username = req.user;
 
-    if (!username || !questionID) {
+    if (!username || !id) {
       return res.status(400).json({ message: 'Missing required fields.' });
     }
 
     const user = await User.findOne({ username }).exec();
     if (!user) return res.status(401).json({ message: 'Unauthorized: User not found.' });
 
-    const question = await Question.findById(questionID);
+    const question = await Question.findById(id);
     if (!question) return res.status(404).json({ message: 'Question not found.' });
 
-    const submissions = await Submission.find({ user: user._id, question: questionID });
+    const submissions = await Submission.find({ user: user._id, question: id });
 
     res.status(200).json({ message: 'Submissions retrieved.', submissions });
   } catch (err) {

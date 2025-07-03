@@ -5,12 +5,12 @@ require('dotenv').config();
 
 const runController = async (req, res, next) => {
   try {
-    const { language, code, questionID } = req.body;
+    const { language, code, questionID, input } = req.body;
     const username = req.user;
 
     // Input validation
-    if (!username || !language || !code || !questionID) {
-      return res.status(400).json({ message: 'Missing required fields: username, language, code, or questionID.' });
+    if (!username || !language || !code || !questionID|| !input) {
+      return res.status(400).json({ message: 'Missing required fields: username, language, code, input, or questionID.' });
     }
 
     const user = await User.findOne({ username }).exec();
@@ -22,10 +22,6 @@ const runController = async (req, res, next) => {
     if (!question) {
       return res.status(404).json({ message: 'Question not found.' });
     }
-
-    const results = [];
-
-    for (const testCase of question.testCases) {
       const options = {
         method: 'POST',
         url: 'https://judge0-ce.p.sulu.sh/submissions',
@@ -48,22 +44,17 @@ const runController = async (req, res, next) => {
               : language === 'C'
               ? 50
               : 54,
-          stdin: testCase.input,
-          expected_output: testCase.output,
+          stdin: input,
         },
       };
 
       const response = await axios.request(options);
 
-      results.push({
-        input: testCase.input,
-        expected: testCase.output,
+     const results = {
+        input:  input,
         stdout: response.data.stdout,
         status: response.data.status.description,
-        passed: response.data.status.description === 'Accepted',
-      });
-    }
-
+      };
     return res.status(200).json({
       message: 'Code executed successfully.',
       results,

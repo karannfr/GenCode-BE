@@ -3,7 +3,8 @@ const router = express.Router()
 const submissionController = require('../controller/submissionsController')
 
 router.route('/')
-.get(submissionController.getAllSubmissions)
 .post(submissionController.makeSubmission)
+
+router.get('/:id',submissionController.getAllSubmissions)
 
 module.exports = router

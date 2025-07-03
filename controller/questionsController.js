@@ -42,7 +42,7 @@ const getQuestionById = async (req, res, next) => {
       return res.status(404).json({ message: 'Question not found.' });
     }
 
-    return res.status(200).json({ message: 'Question retrieved successfully.', question });
+    return res.status(200).json({ message: 'Question retrieved successfully.', question : question });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Internal Server Error.' });
