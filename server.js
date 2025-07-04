@@ -8,6 +8,7 @@ const logEvents = require('./middleware/logEvents');
 const errorLogs = require('./middleware/logErrors')
 const cookieParser = require('cookie-parser')
 const verifyJWT = require('./middleware/verifyJWT')
+const corsOptions = require('./config/corsOptions');
 require('dotenv').config()
 PORT = process.env.PORT || 3500
 
@@ -17,7 +18,8 @@ app.use(logEvents)
 
 app.use(cookieParser())
 
-app.options('*', cors(require('./config/corsOptions')));
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(express.json())
 app.use(express.static('./public'))
