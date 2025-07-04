@@ -17,7 +17,7 @@ app.use(logEvents)
 
 app.use(cookieParser())
 
-app.use(cors(require('./config/corsOptions')))
+app.options('*', cors(require('./config/corsOptions')));
 
 app.use(express.json())
 app.use(express.static('./public'))
