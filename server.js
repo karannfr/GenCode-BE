@@ -32,7 +32,7 @@ app.use('/generate',verifyJWT,require('./routes/generate'))
 app.use('/question',verifyJWT,require('./routes/question'))
 app.use('/run',verifyJWT,require('./routes/run'))
 app.use('/submit',verifyJWT,require('./routes/submit'))
-app.use('/stats',require('./routes/stats'))
+app.use('/stats',verifyJWT,require('./routes/stats'))
 
 app.all('*',(req,res) => {
   if(req.accepts('html')) res.status(404).sendFile(path.join(__dirname,'view','404.html'))

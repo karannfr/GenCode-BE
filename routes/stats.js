@@ -2,6 +2,6 @@ const express = require('express')
 const router = express.Router()
 const getStats= require('../controller/statsController')
 
-router.get('/:username', getStats)
+router.get('/', getStats)
 
 module.exports = router

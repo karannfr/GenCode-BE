@@ -45,7 +45,7 @@ const updateStats = async (username) => {
 
 const getStats = async (req, res, next) => {
   try {
-    const username = req.params.username;
+    const username = req.user;
     await updateStats(username);
 
     const user = await User.findOne({ username }).exec();
