@@ -54,6 +54,8 @@ const runController = async (req, res, next) => {
         input:  input,
         stdout: response.data.stdout,
         status: response.data.status.description,
+        compile_output: response.data.compile_output,
+        stderr: response.data.stderr,
       };
     return res.status(200).json({
       message: 'Code executed successfully.',
