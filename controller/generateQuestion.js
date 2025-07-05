@@ -57,7 +57,7 @@ Respond ONLY with the following JSON structure:
   "solution": "Provide the full solution in Python here."
 }
 
-⚠️ Do NOT include markdown formatting, headings, or explanations. Return only a valid JSON object exactly in the above format.
+⚠️ Do NOT include markdown formatting, headings, or explanations. Return only a valid JSON object exactly in the above format. Make sure to generate atleast 10 different test cases and thoroughly check that the generated test cases and examples match the soution and are correct.
 `
     });
 
