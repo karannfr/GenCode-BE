@@ -21,15 +21,13 @@ const generateQuestion = async (req, res, next) => {
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: `You are an AI question generator. Based on the following user input, generate a competitive programming problem in JSON format only.
+      contents: `You are an advanced AI-based competitive programming problem generator. Based on the provided user input ${input}, generate a fully validated and accurate competitive programming problem in **JSON format only**, with no extra text or explanation outside the JSON.
 
-User prompt: ${input}
-
-Respond ONLY with the following JSON structure:
+Your response must strictly follow this exact JSON schema:
 
 {
   "title": "Your Title Here",
-  "description": "Full problem description here.",
+  "description": "Full problem description with clearly defined input format, output format, and clarifications on edge cases. Use a standard competitive programming style.",
   "constraints": ["Constraint 1", "Constraint 2", "..."],
   "examples": [
     {
@@ -51,13 +49,31 @@ Respond ONLY with the following JSON structure:
     {
       "input": "Test input 2",
       "output": "Expected output 2"
+    },
+    ...
+    {
+      "input": "Test input 10",
+      "output": "Expected output 10"
     }
   ],
-  "hints": ["Hint 1", "Hint 2", "..."],
-  "solution": "Provide the full solution in Python here."
+  "hints": ["Optional hint 1", "Optional hint 2", "..."],
+  "solution": "Full correct and efficient Python 3 code that matches the problem description and passes all examples and test cases exactly."
 }
 
-⚠️ Do NOT include markdown formatting, headings, or explanations. Return only a valid JSON object exactly in the above format. Make sure to generate atleast 10 different test cases and thoroughly check that the generated test cases and examples match the soution and are correct.
+🛡️ **Strict Requirements:**
+- DO NOT include markdown formatting, headings, or any text outside the JSON.
+- Ensure that ALL "examples" and "testCases" strictly match the behavior of the solution. Manually validate them or use the code to verify them internally before finalizing output.
+- The "solution" must be the **exact Python implementation** used to derive all outputs, not pseudocode or approximations.
+- Always include exactly **10 validated test cases** in the "testCases" array.
+- If the input prompt is abstract, infer a clear, logical, and competitive-style problem from it.
+
+🚫 **DO NOT:**
+- Do not hallucinate test cases or outputs.
+- Do not leave any example/test case or output undefined or ambiguous.
+- Do not print anything other than the raw JSON.
+
+🎯 Your only job is to return a **clean, correct, complete JSON object** that meets all the above criteria. Now, generate the problem using the above template and validation rules.
+
 `
     });
 
