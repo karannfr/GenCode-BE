@@ -25,6 +25,8 @@ app.use(express.json())
 app.use(express.static('./public'))
 app.use(express.urlencoded({ extended: true }));
 
+
+app.use(require('./config/limiter'));
 app.use('/',require('./routes/root'))
 app.use('/register',require('./routes/register'))
 app.use('/login',require('./routes/login'))
